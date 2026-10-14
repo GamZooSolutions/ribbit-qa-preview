@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ribbit Q&amp;A Website Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+  /* Layout: a tour bar over one framed, true-to-size snapshot of the site (scaled to fit), switchable between computer and phone. */
+  :root {
+    --bg: #eceef3;
+    --surface: #ffffff;
+    --ink: #0b1e42;
+    --muted: #586179;
+    --line: #d6dbe5;
+    --band: #0b1e42;
+    --band-ink: #ffffff;
+    --gold: #f0a220;
+    --tab-on-bg: #0b1e42;
+    --tab-on-fg: #ffffff;
+    --chrome: #e3e6ed;
+    --sans: 'Source Sans 3', 'Segoe UI', Helvetica, Arial, sans-serif;
+    --serif: Merriweather, Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0a1021; --surface: #131c31; --ink: #e8ecf5; --muted: #9ba5bb; --line: #27324f;
+      --band: #0f1a36; --band-ink: #ffffff; --tab-on-bg: #f0a220; --tab-on-fg: #0b1e42; --chrome: #1c2640;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a1021; --surface: #131c31; --ink: #e8ecf5; --muted: #9ba5bb; --line: #27324f;
+    --band: #0f1a36; --band-ink: #ffffff; --tab-on-bg: #f0a220; --tab-on-fg: #0b1e42; --chrome: #1c2640;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font: 17px/1.5 var(--sans); }
+  .band { background: var(--band); color: var(--band-ink); padding-block: 28px 30px; padding-inline: 20px; }
+  .inner { max-width: 1240px; margin-inline: auto; }
+  .head { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+  .head svg { width: 86px; height: auto; flex: none; }
+  .head-text { min-width: 0; flex: 1 1 320px; }
+  .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  h1 { margin: 4px 0 6px; font-size: clamp(26px, 4vw, 38px); line-height: 1.1; font-weight: 800; text-wrap: balance; }
+  .head p { margin: 0; color: rgba(255,255,255,.82); max-width: 62ch; }
+  .controls { padding-inline: 20px; padding-block: 18px 0; }
+  .bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+  .tabs, .devices { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tabs button, .devices button {
+    font: 700 15px var(--sans); color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+    padding: 9px 14px; border-radius: 999px; cursor: pointer;
+  }
+  .tabs button:hover, .devices button:hover { border-color: var(--ink); }
+  .tabs button[aria-selected="true"], .devices button[aria-pressed="true"] { background: var(--tab-on-bg); color: var(--tab-on-fg); border-color: var(--tab-on-bg); }
+  .tabs button:focus-visible, .devices button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .note { margin: 14px 0 0; color: var(--muted); max-width: 75ch; min-height: 1.5em; }
+  .note strong { color: var(--ink); }
+  .stage { padding-inline: 20px; padding-block: 18px 48px; }
+  .window { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 18px 50px rgba(11,30,66,.14); margin-inline: auto; }
+  .chrome { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--chrome); border-bottom: 1px solid var(--line); }
+  .dots { display: flex; gap: 6px; flex: none; }
+  .dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); display: block; }
+  .address { flex: 1; min-width: 0; font-size: 14px; color: var(--muted); background: var(--surface); border-radius: 999px; padding: 5px 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .viewport { position: relative; overflow: hidden; background: #fffdf8; }
+  .viewport iframe { border: 0; display: block; transform-origin: 0 0; background: #fffdf8; }
+  .phone .window { max-width: 410px; border-radius: 34px; border-width: 10px; border-color: var(--ink); }
+  .phone .chrome { justify-content: center; }
+  .phone .dots { display: none; }
+  .phone .address { flex: 0 1 auto; text-align: center; }
+  .foot { color: var(--muted); font-size: 15px; text-align: center; margin: 22px auto 0; max-width: 70ch; }
+  @media (prefers-reduced-motion: no-preference) { .viewport { transition: height .2s ease; } }
+</style>
+
+<header class="band">
+  <div class="inner head">
+    <svg viewBox="0 0 200 168" role="img" aria-label="Ribbit Q&amp;A">
+      <path d="M8 0h164a28 28 0 0 1 28 28v94a28 28 0 0 1-28 28H150l8 18-36-18H28A28 28 0 0 1 0 122V8A8 8 0 0 1 8 0Z" fill="#ffffff"/>
+      <text x="100" y="53" text-anchor="middle" fill="#0b1e42" font-family="'Source Sans 3', Arial, sans-serif" font-weight="700" font-size="40" letter-spacing="1">RIBBIT</text>
+      <text x="100" y="127" text-anchor="middle" fill="#f0a220" font-family="Merriweather, Georgia, serif" font-weight="900" font-size="64" letter-spacing="-1">Q&amp;A</text>
+    </svg>
+    <div class="head-text">
+      <div class="eyebrow">Website preview · not live yet</div>
+      <h1>The new Ribbit Q&amp;A website</h1>
+      <p>Click around: every page and link works here. Buttons that send email or download a file show a short note instead, because the site isn’t online yet.</p>
+    </div>
+  </div>
+</header>
+
+<section class="controls">
+  <div class="inner">
+    <div class="bar">
+      <div class="tabs" role="tablist" aria-label="Pages">
+        <button role="tab" id="t-home" data-tab="home">Home page</button>
+        <button role="tab" id="t-flyers" data-tab="flyers">Past flyers</button>
+        <button role="tab" id="t-flyer" data-tab="flyer">A flyer page</button>
+        <button role="tab" id="t-contact" data-tab="contact">Ask a question</button>
+        <button role="tab" id="t-admin" data-tab="admin">Posting a new flyer</button>
+        <button role="tab" id="t-email" data-tab="email">The weekly email</button>
+      </div>
+      <div class="devices" aria-label="Screen size">
+        <button id="d-computer" data-device="computer" aria-pressed="true">Computer</button>
+        <button id="d-phone" data-device="phone" aria-pressed="false">Phone</button>
+      </div>
+    </div>
+    <p class="note" id="note"></p>
+  </div>
+</section>
+
+<main class="stage" id="stage">
+  <div class="window" id="window">
+    <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="address" id="address">your-website.com</span></div>
+    <div class="viewport" id="viewport"><iframe id="frame" title="Ribbit Q&amp;A website preview" src="p-home.html"></iframe></div>
+  </div>
+  <p class="foot">Questions on any page go straight to Ribbitrabbi@gmail.com. Each new flyer posted on the admin page is emailed to everyone on the list automatically.</p>
+</main>
+
+<script>
+(function () {
+  var TABS = {
+    home: { file: 'p-home.html', addr: 'your-website.com', note: '<strong>What visitors see first:</strong> this week’s flyer, recent flyers, the email sign-up and the question form. The Gemara from Bava Metzia 71a appears at the bottom of every page.' },
+    flyers: { file: 'p-flyers.html', addr: 'your-website.com/flyers', note: '<strong>Every flyer is kept here,</strong> newest first, to read online or download and print.' },
+    flyer: { file: 'p-flyer-noach-credit-card-points.html', addr: 'your-website.com/flyers/noach-credit-card-points', note: '<strong>Each flyer has its own page</strong> with a download button, the Ribbit Insight, and buttons to share it on WhatsApp or by email.' },
+    contact: { file: 'p-contact.html', addr: 'your-website.com/contact', note: '<strong>Questions typed here arrive in the Ribbitrabbi@gmail.com inbox.</strong> Pressing Reply answers the person directly.' },
+    admin: { file: 'p-admin.html', addr: 'your-website.com/admin  (password protected)', note: '<strong>The private page for posting a flyer.</strong> Upload the PDF, type the headline and parasha, press Publish, and it goes up on the site and is emailed to every subscriber.' },
+    email: { file: 'p-email.html', addr: 'Subscriber’s inbox', note: '<strong>What subscribers receive each week,</strong> with the printable PDF attached and an unsubscribe link at the bottom.' }
+  };
+  var frame = document.getElementById('frame');
+  var viewport = document.getElementById('viewport');
+  var win = document.getElementById('window');
+  var stage = document.getElementById('stage');
+  var device = 'computer';
+  var current = 'home';
+
+  function tabForFile(file) {
+    if (/^p-flyer-/.test(file)) return 'flyer';
+    for (var k in TABS) if (TABS[k].file === file) return k;
+    return null;
+  }
+
+  function select(tab, navigate) {
+    current = tab;
+    document.querySelectorAll('.tabs button').forEach(function (b) { b.setAttribute('aria-selected', String(b.dataset.tab === tab)); });
+    document.getElementById('note').innerHTML = TABS[tab].note;
+    document.getElementById('address').textContent = TABS[tab].addr;
+    if (navigate) frame.src = TABS[tab].file;
+  }
+
+  function fit() {
+    var avail = stage.clientWidth - 40;
+    var phone = device === 'phone';
+    var w = phone ? 390 : 1280;
+    var scale = Math.min(1, (phone ? Math.min(avail, 410) - 20 : avail) / w);
+    if (!phone) win.style.maxWidth = Math.round(w * scale + 2) + 'px'; else win.style.maxWidth = '';
+    frame.style.width = w + 'px';
+    var h = 900;
+    try {
+      var doc = frame.contentDocument;
+      if (doc && doc.documentElement) h = Math.max(Math.ceil(doc.documentElement.getBoundingClientRect().height), 400);
+      frame.setAttribute('scrolling', 'no');
+    } catch (e) { frame.removeAttribute('scrolling'); }
+    frame.style.height = h + 'px';
+    frame.style.transform = 'scale(' + scale + ')';
+    viewport.style.width = Math.round(w * scale) + 'px';
+    viewport.style.height = Math.round(h * scale) + 'px';
+  }
+
+  var ro;
+  frame.addEventListener('load', function () {
+    try {
+      var file = frame.contentWindow.location.pathname.split('/').pop();
+      var tab = tabForFile(file);
+      if (tab) {
+        select(tab, false);
+        if (tab === 'flyer') document.getElementById('address').textContent = 'your-website.com/flyers/' + file.replace(/^p-flyer-|\.html$/g, '');
+      }
+      if (ro) ro.disconnect();
+      if (window.ResizeObserver) { ro = new ResizeObserver(fit); ro.observe(frame.contentDocument.body); }
+      frame.contentDocument.querySelectorAll('img').forEach(function (img) { img.addEventListener('load', fit); });
+    } catch (e) {}
+    fit();
+  });
+
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () { select(b.dataset.tab, true); });
+  });
+  document.querySelectorAll('.devices button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      device = b.dataset.device;
+      document.body.classList.toggle('phone', device === 'phone');
+      document.querySelectorAll('.devices button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      fit();
+      setTimeout(fit, 150);
+    });
+  });
+  window.addEventListener('resize', fit);
+  select('home', false);
+  fit();
+})();
+</script>
+
+</body>
+</html>
